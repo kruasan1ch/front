@@ -1,0 +1,31 @@
+
+<p-dialog header="Title" [(visible)]="display" position="top" height="auto" *ngIf="display" [modal]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <p-scrollPanel [style]="{width: '100%', height: '400px'}">
+        <p-divider></p-divider>
+        <div>
+            <h6>Created at: {{taskController.parseDate(task.created_at)}}</h6>
+            <h6>Updated at: {{taskController.parseDate(task.updated_at)}}</h6>
+        </div>
+        <p-divider></p-divider>
+        <div class="form">
+            <div class="item">
+                <span class="p-float-label">
+                    <input id="task-title" type="text" pInputText [(ngModel)]="task.title" name="title">
+                    <label for="task-title">Title</label>
+                    <p-toggleButton [(ngModel)]="task.done" name="done" class="subitem"  offIcon="pi pi-times" onIcon="pi pi-check"></p-toggleButton>
+                </span>
+            </div>
+            <div class="item">
+                <textarea [rows]="5" [cols]="30" pInputTextarea [autoResize]="true" [(ngModel)]="task.body" name="body" class="text_area"></textarea>
+            </div>
+            <div class="item">
+                <p-dropdown [options]="users" [(ngModel)]="selectedUser" optionLabel="user_name"></p-dropdown>
+            </div>
+            <p-divider></p-divider>
+            <div class="item">
+                <button pButton (click)="save()">Save</button>
+                <button pButton class="subitem" (click)="close()">Cancel</button>
+            </div>
+        </div>
+    </p-scrollPanel>
+</p-dialog>

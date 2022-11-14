@@ -1,0 +1,66 @@
+<p-table 
+    [columns]="cols" 
+    [value]="tasks" 
+    [paginator]="true" 
+    [rows]="10" 
+    [showCurrentPageReport]="true" 
+    responsiveLayout="scroll" 
+    styleClass="p-datatable-gridlines"
+>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+            <th style="width: 8.5%;">
+
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                <div 
+                    *ngIf="col.field != 'done' && col.field != 'user_id' && col.field != 'created_at'" 
+                    [ngClass]="{'done': rowData.done}"
+                >
+                    {{rowData[col.field]}}
+                </div>
+                <div *ngIf="col.field == 'done'" class="fit_content center">
+                    <i class="pi pi-check" *ngIf="rowData[col.field] == true"></i>
+                    <i class="pi pi-times" *ngIf="rowData[col.field] == false"></i>
+                </div>
+                <div *ngIf="col.field == 'user_id'" class="fit_content center">
+                    {{taskController.getUserNameByID(rowData.user_id, users)}}
+                </div>
+                <div *ngIf="col.field == 'created_at'" class="fit_content center">
+                    {{taskController.parseDate(rowData.created_at)}}
+                </div>
+            </td>
+            <td>
+                <span class="p-buttonset">
+                    <button 
+                    pButton 
+                    pRipple 
+                    type="button" 
+                    icon="pi pi-pencil" 
+                    class="p-button-rounded center"
+                    (click)="editTask(rowData)"
+                ></button>
+
+                <button 
+                    pButton 
+                    pRipple
+                    type="button" 
+                    icon="pi pi-trash" 
+                    class="p-button-rounded lower_button center"
+                    (click)="deleteTask(rowData.id)"
+                ></button>
+                </span>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text" (click)="createTask()"></p-button>
+    </ng-template>
+</p-table>

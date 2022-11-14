@@ -1,0 +1,58 @@
+<p-table 
+    [columns]="cols" 
+    [value]="users" 
+    [paginator]="true" 
+    [rows]="10" 
+    [showCurrentPageReport]="true" 
+    responsiveLayout="scroll" 
+    styleClass="p-datatable-gridlines"
+>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                <div 
+                    *ngIf="col.field != 'done' && col.field != 'user_id' && col.field != 'created_at'" 
+                    [ngClass]="{'done': rowData.done}"
+                >
+                    {{rowData[col.field]}}
+                </div>
+                <div *ngIf="col.field == 'done'" class="fit_content center">
+                    <i class="pi pi-check" *ngIf="rowData[col.field] == true"></i>
+                    <i class="pi pi-times" *ngIf="rowData[col.field] == false"></i>
+                </div>
+            </td>
+            <td>
+                <span class="p-buttonset">
+                    <button 
+                    pButton 
+                    pRipple 
+                    type="button" 
+                    icon="pi pi-pencil" 
+                    class="p-button-rounded center"
+                    (click)="editUser(rowData)"
+                ></button>
+
+                <button 
+                    pButton 
+                    pRipple
+                    type="button" 
+                    icon="pi pi-trash" 
+                    class="p-button-rounded lower_button center"
+                    (click)="deleteUser(rowData.id)"
+                ></button>
+                </span>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text" (click)="createUser()"></p-button> 
+    </ng-template>
+</p-table>
